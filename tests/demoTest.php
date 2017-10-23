@@ -8,7 +8,7 @@
  */
 use Illuminate\Database\Capsule\Manager as DB;
 use Elasticsearch\Client as ES;
-use \Doctrine\Common\Cache\RedisCache as Cache;
+use Doctrine\Common\Cache\RedisCache as Cache;
 
 
 Class DemoTest extends PHPUnit_YafTestCase
@@ -26,10 +26,10 @@ Class DemoTest extends PHPUnit_YafTestCase
 	{
 //		$this->mysql();
 //		$this->es();
-//		$this->cache();
-		$this->getConfig();
+//		$this->getConfig();
 //		$this->service();
 //		$this->appModel();
+		$this->cache();
 	}
 
 	public function appModel()
@@ -45,9 +45,7 @@ Class DemoTest extends PHPUnit_YafTestCase
 	{
 		$this->db = new DB;
 		$config = Yaf_Registry::get('config')->get('yaf')->get('db')->get('master')->toArray();
-		$this->db->addConnection(
-			$config
-		);
+		$this->db->addConnection($config);
 		$this->db->setAsGlobal();
 		$this->db->bootEloquent();
 		var_dump($this->db->table('user_info')->select('user_id')->limit(1)->get());
@@ -75,8 +73,9 @@ Class DemoTest extends PHPUnit_YafTestCase
 
 	public function cache()
 	{
+		$config = Yaf_Registry::get('config')->get('yaf')->get('cache')->toArray();
 		$redis = new Redis();
-		$redis->connect('10.0.3.161', 6379);
+		$redis->connect($config['host'], $config['port']);
 
 		$cacheDriver = new Cache();
 		$cacheDriver->setRedis($redis);

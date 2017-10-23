@@ -50,7 +50,7 @@ class BaseModel
     {
         if(self::$DB == NULL){
             self::$DB = new DB;
-            self::$DB->addConnection(Yaf_Registry::get('config')->get('yaf')->get('db')->get('master')->toArray());
+            self::$DB->addConnection(\Yaf\Registry::get('config')->get('yaf')->get('db')->get('master')->toArray());
             self::$DB->setAsGlobal();
             self::$DB->bootEloquent();
         }

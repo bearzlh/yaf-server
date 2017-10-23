@@ -12,7 +12,7 @@ class Pivot extends Model
      *
      * @var \Illuminate\Database\Eloquent\Model
      */
-    public $parent;
+    protected $parent;
 
     /**
      * The name of the foreign key column.
@@ -26,7 +26,7 @@ class Pivot extends Model
      *
      * @var string
      */
-    protected $relatedKey;
+    protected $otherKey;
 
     /**
      * The attributes that aren't mass assignable.
@@ -51,10 +51,13 @@ class Pivot extends Model
         // The pivot model is a "dynamic" model since we will set the tables dynamically
         // for the instance. This allows it work for any intermediate tables for the
         // many to many relationship that are defined by this developer's classes.
-        $this->setConnection($parent->getConnectionName())
-             ->setTable($table)
-             ->forceFill($attributes)
-             ->syncOriginal();
+        $this->setTable($table);
+
+        $this->setConnection($parent->getConnectionName());
+
+        $this->forceFill($attributes);
+
+        $this->syncOriginal();
 
         // We store off the parent instance so we will access the timestamp column names
         // for the model, since the pivot model timestamps aren't easily configurable
@@ -67,24 +70,6 @@ class Pivot extends Model
     }
 
     /**
-     * Create a new pivot model from raw values returned from a query.
-     *
-     * @param  \Illuminate\Database\Eloquent\Model  $parent
-     * @param  array   $attributes
-     * @param  string  $table
-     * @param  bool    $exists
-     * @return static
-     */
-    public static function fromRawAttributes(Model $parent, $attributes, $table, $exists = false)
-    {
-        $instance = new static($parent, $attributes, $table, $exists);
-
-        $instance->setRawAttributes($attributes, true);
-
-        return $instance;
-    }
-
-    /**
      * Set the keys for a save update query.
      *
      * @param  \Illuminate\Database\Eloquent\Builder  $query
@@ -94,7 +79,7 @@ class Pivot extends Model
     {
         $query->where($this->foreignKey, $this->getAttribute($this->foreignKey));
 
-        return $query->where($this->relatedKey, $this->getAttribute($this->relatedKey));
+        return $query->where($this->otherKey, $this->getAttribute($this->otherKey));
     }
 
     /**
@@ -114,10 +99,11 @@ class Pivot extends Model
      */
     protected function getDeleteQuery()
     {
-        return $this->newQuery()->where([
-            $this->foreignKey => $this->getAttribute($this->foreignKey),
-            $this->relatedKey => $this->getAttribute($this->relatedKey),
-        ]);
+        $foreign = $this->getAttribute($this->foreignKey);
+
+        $query = $this->newQuery()->where($this->foreignKey, $foreign);
+
+        return $query->where($this->otherKey, $this->getAttribute($this->otherKey));
     }
 
     /**
@@ -131,37 +117,27 @@ class Pivot extends Model
     }
 
     /**
-     * Get the "related key" column name.
-     *
-     * @return string
-     */
-    public function getRelatedKey()
-    {
-        return $this->relatedKey;
-    }
-
-    /**
-     * Get the "related key" column name.
+     * Get the "other key" column name.
      *
      * @return string
      */
     public function getOtherKey()
     {
-        return $this->getRelatedKey();
+        return $this->otherKey;
     }
 
     /**
      * Set the key names for the pivot model instance.
      *
      * @param  string  $foreignKey
-     * @param  string  $relatedKey
+     * @param  string  $otherKey
      * @return $this
      */
-    public function setPivotKeys($foreignKey, $relatedKey)
+    public function setPivotKeys($foreignKey, $otherKey)
     {
         $this->foreignKey = $foreignKey;
 
-        $this->relatedKey = $relatedKey;
+        $this->otherKey = $otherKey;
 
         return $this;
     }

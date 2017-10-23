@@ -8,6 +8,7 @@ class ComposerStaticInit9e0999987988bf6417ef04e66a65b919
 {
     public static $files = array (
         '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
+        '65fec9ebcfbb3cbb4fd0d519687aea01' => __DIR__ . '/..' . '/danielstjules/stringy/src/Create.php',
         '5255c38a0faeba867671b61dfda6d864' => __DIR__ . '/..' . '/paragonie/random_compat/lib/random.php',
         '72579e7bd17821bb1321b87411366eae' => __DIR__ . '/..' . '/illuminate/support/helpers.php',
     );
@@ -18,6 +19,7 @@ class ComposerStaticInit9e0999987988bf6417ef04e66a65b919
             'Symfony\\Polyfill\\Mbstring\\' => 26,
             'Symfony\\Component\\Translation\\' => 30,
             'Symfony\\Component\\EventDispatcher\\' => 34,
+            'Stringy\\' => 8,
         ),
         'P' => 
         array (
@@ -31,6 +33,7 @@ class ComposerStaticInit9e0999987988bf6417ef04e66a65b919
         'I' => 
         array (
             'Illuminate\\Support\\' => 19,
+            'Illuminate\\Events\\' => 18,
             'Illuminate\\Database\\' => 20,
             'Illuminate\\Contracts\\' => 21,
             'Illuminate\\Container\\' => 21,
@@ -49,6 +52,7 @@ class ComposerStaticInit9e0999987988bf6417ef04e66a65b919
         ),
         'A' => 
         array (
+            'App\\Controllers\\' => 16,
             'App\\' => 4,
         ),
     );
@@ -66,6 +70,10 @@ class ComposerStaticInit9e0999987988bf6417ef04e66a65b919
         array (
             0 => __DIR__ . '/..' . '/symfony/event-dispatcher',
         ),
+        'Stringy\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/danielstjules/stringy/src',
+        ),
         'Psr\\Log\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/log/Psr/Log',
@@ -81,6 +89,10 @@ class ComposerStaticInit9e0999987988bf6417ef04e66a65b919
         'Illuminate\\Support\\' => 
         array (
             0 => __DIR__ . '/..' . '/illuminate/support',
+        ),
+        'Illuminate\\Events\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/illuminate/events',
         ),
         'Illuminate\\Database\\' => 
         array (
@@ -105,6 +117,10 @@ class ComposerStaticInit9e0999987988bf6417ef04e66a65b919
         'Carbon\\' => 
         array (
             0 => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon',
+        ),
+        'App\\Controllers\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/app/controllers',
         ),
         'App\\' => 
         array (
