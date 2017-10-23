@@ -29,26 +29,28 @@ Class DemoTest extends PHPUnit_YafTestCase
 //		$this->cache();
 		$this->getConfig();
 //		$this->service();
+//		$this->appModel();
+	}
+
+	public function appModel()
+	{
+		$app = new \App\models\App\DimApp();
+		var_dump($app->fetchAll(array('id'=>2)));
+		var_dump($app->fetchRow(array('id'=>2)));
+		var_dump($app->fetchRow(2));
+		var_dump($app->exists(2));
 	}
 
 	public function mysql()
 	{
 		$this->db = new DB;
+		$config = Yaf_Registry::get('config')->get('yaf')->get('db')->get('master')->toArray();
 		$this->db->addConnection(
-			[
-				'driver'    => 'mysql',
-				'host'      => '10.0.3.161',
-				'database'  => 'db_toushibao_main',
-				'username'  => 'root',
-				'password'  => '123456',
-				'charset'   => 'utf8',
-				'collation' => 'utf8_unicode_ci',
-				'prefix'    => '',
-			]
+			$config
 		);
 		$this->db->setAsGlobal();
 		$this->db->bootEloquent();
-		var_dump($this->db->table('user_info')->first());
+		var_dump($this->db->table('user_info')->select('user_id')->limit(1)->get());
 	}
 
 	public function es()
@@ -84,7 +86,7 @@ Class DemoTest extends PHPUnit_YafTestCase
 
 	public function getConfig()
 	{
-		var_dump(Yaf_Registry::get('config'));
+		var_dump((array)Yaf_Registry::get('config')->get('yaf')->get('db')->get('master')->toArray());
 	}
 
 	public function service()

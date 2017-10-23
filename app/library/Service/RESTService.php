@@ -2,7 +2,6 @@
 
 namespace App\library\Service;
 
-use App\library\Constants\ProfessionErrorCodeEnum;
 use App\library\Constants\ErrorCodeEnum;
 
 /**

@@ -46,7 +46,8 @@ class PHPUnit_YafTestCase extends PHPUnit_Framework_TestCase
             $this->sMockActoin = PHPUnit_MockYafAction::getInstance($this->application);
             Yaf_Registry::set('sMockActoin', $this->sMockActoin);
         }
-
+        $arrConfig = Yaf_Application::app()->getConfig();
+        Yaf_Registry::set('config', $arrConfig);
         $this->setUseErrorHandler(TRUE);
         set_error_handler(array('PHPUnit_YafErrorHandler', 'cliErrorHandler'));
     }
